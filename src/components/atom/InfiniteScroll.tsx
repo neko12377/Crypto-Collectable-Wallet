@@ -189,7 +189,7 @@ const InfiniteScroll = () => {
             observer.current = new IntersectionObserver(
                 (entries) => {
                     if (entries[0].isIntersecting) {
-                        if (limit.current <= 40) limit.current = limit.current + 10;
+                        limit.current = limit.current <= 40 ? limit.current + 10 : limit.current < 50 ? 50 : 0;
                         assetsArray[0].id !== 0 && setUrlPath(
                             `/opensea_proxy/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
                         );
