@@ -162,13 +162,12 @@ const NothingMoreBlock = styled.div`
 `;
 
 const InfiniteScroll = () => {
-    const [limit, setLimit] = useState(51);
+    const limit = useRef(20);
     const [offset, setOffset] = useState(0)
     const [urlPath, setUrlPath] = useState<string>(
-        `/opensea_proxy/assets?order_direction=desc&limit=${limit}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
+        `/opensea_proxy/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
     );
     const {assets, hasMore, isLoading, error} = useDataGetting(urlPath);
-    console.info(assets);
     const assetsArray = useMemo(() =>
         assets.length > 0 && !error
             ? assets.map((item: PostContentInterface) => {
@@ -190,9 +189,9 @@ const InfiniteScroll = () => {
             observer.current = new IntersectionObserver(
                 (entries) => {
                     if (entries[0].isIntersecting) {
-                        setOffset(preOffset => preOffset + 1);
+                        if (limit.current <= 40) limit.current = limit.current + 10;
                         assetsArray[0].id !== 0 && setUrlPath(
-                            `/opensea_proxy/assets?order_direction=desc&limit=${limit}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
+                            `/opensea_proxy/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
                         );
                     }
                 },
@@ -200,7 +199,7 @@ const InfiniteScroll = () => {
             );
             lastNode && observer.current?.observe(lastNode);
         },
-        [assetsArray, limit, offset]
+        [assetsArray, offset]
     );
 
     // const [backToTopButtonVisibility, setBackToTopButtonVisibility] = useState<"flex" | "none">("none");
