@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`infinite scroll 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: white;
+  width: 50%;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 100%;
+}
+
+.emotion-1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  cursor: pointer;
+  padding: 30px 10%;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.emotion-1:hover {
+  background-color: rgba(203, 203, 203, 0.45);
+}
+
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+}
+
+.emotion-3 {
+  margin: 5px 0 10px 0;
+  color: #2e2e2e;
+  width: 100%;
+}
+
+.emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  color: #3e3e3e;
+  width: 100%;
+}
+
+.emotion-5 {
+  position: absolute;
+  bottom: 20px;
+  right: 26.5%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(56, 99, 158, 0.66);
+  display: none;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.emotion-5:hover {
+  background-color: rgb(177, 231, 253);
+}
+
+<div
+  className="emotion-0"
+>
+  <div
+    className="emotion-1"
+  >
+    <div
+      className="emotion-2"
+    >
+      男・undefined
+    </div>
+    <h1
+      className="emotion-3"
+    >
+      Currently not thing is available
+    </h1>
+    <div
+      className="emotion-4"
+    >
+      woo woo
+    </div>
+  </div>
+  <a
+    className="emotion-5"
+    href="#top"
+    visibility="none"
+  >
+    TOP
+  </a>
+</div>
+`;

@@ -1,0 +1,65 @@
+{
+  "name": "dcard_homework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "webpack serve --config webpack/start.js",
+    "start-proxy": "node proxy/index.js",
+    "start": "node proxy/index.js | webpack serve --config webpack/start.js",
+    "build": "prettier --write 'src/**/*' | webpack --config webpack/build.js",
+    "format": "prettier --write 'src/**/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Pulse-beats/zing-frontend-project.git"
+  },
+  "author": "Kasper Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "https://github.com/neko12377/dcardhomework",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "@emotion/jest": "^11.3.0",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@testing-library/react": "^12.1.0",
+    "@types/jest": "^27.0.1",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "@types/react-test-renderer": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "axios": "^0.21.4",
+    "chalk": "^4.1.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "css-loader": "^6.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.25.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.1.0",
+    "mini-css-extract-plugin": "^2.2.2",
+    "prettier": "^2.3.0",
+    "react-is": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
+    "terser-webpack-plugin": "^5.2.4",
+    "ts-jest": "^27.0.4",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.2",
+    "webpack": "^5.38.1",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "engines": {
+    "npm": "16.8.0"
+  }
+}
