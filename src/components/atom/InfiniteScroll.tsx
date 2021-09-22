@@ -4,7 +4,6 @@ import {
     useDataGetting
 } from "../../hooks/useDataGetting";
 import styled from "@emotion/styled";
-import { useDetailGetting } from "../../hooks/useDetailGetting";
 import { DetailPage } from "./DetailPage";
 
 const Base = styled.div`
