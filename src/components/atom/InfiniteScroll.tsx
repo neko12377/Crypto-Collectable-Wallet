@@ -18,6 +18,7 @@ const Base = styled.div`
   max-height: 100%;
   flex-wrap: wrap;
   padding-top: 10px;
+  min-width: 678px;
 `;
 
 const Card = styled.div`
