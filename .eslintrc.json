@@ -24,6 +24,7 @@
     "rules": {
         "react-hooks/rules-of-hooks": "error", // 檢查 Hook 的規則
         "react-hooks/exhaustive-deps": "error", // 檢查 dependency array
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "camelcase": "warn"
     }
 }

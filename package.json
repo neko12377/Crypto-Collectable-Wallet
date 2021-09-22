@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start-dev": "webpack serve --config webpack/start.js",
-    "start-proxy": "node proxy/index.js",
-    "start": "node proxy/index.js | webpack serve --config webpack/start.js",
+    "start": "webpack serve --config webpack/start.js",
     "build": "prettier --write 'src/**/*' | webpack --config webpack/build.js",
     "format": "prettier --write 'src/**/*'"
   },
@@ -21,8 +19,7 @@
   "homepage": "https://github.com/neko12377/dcardhomework",
   "dependencies": {
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "styled-components": "^5.3.0"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@emotion/jest": "^11.3.0",

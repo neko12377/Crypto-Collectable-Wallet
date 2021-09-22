@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 export interface PostContentInterface {
-    title: string;
-    excerpt: string;
-    id?: number;
-    gender?: "F" | "M";
-    forumName?: string;
+    token_id: string;
+    id: number;
+    asset_contract: {address: string};
+    image_preview_url?: string;
+    name: string;
 }
 
 interface usePostsGettingReturnInterface {
@@ -27,7 +27,6 @@ export const useDataGetting = (
 
     useEffect(() => {
         setIsLoading(true);
-        console.info(urlPath, "path")
         urlPath &&
             fetch(urlPath, {
                 method: "GET",
@@ -39,11 +38,10 @@ export const useDataGetting = (
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.info(data, "hook")
                     data &&
                         setAssets(data.assets);
                     setIsLoading(false);
-                    // setHasMore(data.length > 0);
+                    setHasMore(data.assets.length > 0);
                 })
                 .catch((err) => {
                     console.info(`%c${err}`, "color: red");

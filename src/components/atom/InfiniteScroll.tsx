@@ -1,53 +1,68 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     PostContentInterface,
-    useDataGetting,
+    useDataGetting
 } from "../../hooks/useDataGetting";
 import styled from "@emotion/styled";
+import { useDetailGetting } from "../../hooks/useDetailGetting";
+import { DetailPage } from "./DetailPage";
 
 const Base = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   align-items: center;
   background-color: white;
   width: 50%;
   overflow-y: auto;
   height: 100%;
   max-height: 100%;
+  flex-wrap: wrap;
+  padding-top: 10px;
 `;
 
-const Block = styled.div`
+const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   cursor: pointer;
-  padding: 30px 10%;
+  padding: 10px 10px 20px 10px;
   border-radius: 4px;
-  width: 100%;
+  width: 45%;
+  height: 40%;
+  box-shadow: #2e8484 0px 0px 2px;
 
   &:hover {
     background-color: rgba(203, 203, 203, 0.45);
   }
 `;
 
-const Inform = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  font-size: 14px;
-`;
-
-const Title = styled.h1`
+const CardTitle = styled.h2`
   margin: 5px 0 10px 0;
   color: #2e2e2e;
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
-const Excerpt = styled.div`
+const CardImageBlock = styled.div`
+    width: 90%;
+    height: 80%;
+    min-height: 80%;
+    max-height: 80%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 10px;
+    
+    & img {
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+    }
+`
+
+const CardContent = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -163,25 +178,35 @@ const NothingMoreBlock = styled.div`
 
 const InfiniteScroll = () => {
     const limit = useRef(20);
-    const [offset, setOffset] = useState(0)
+    const [offset, setOffset] = useState(0);
     const [urlPath, setUrlPath] = useState<string>(
-        `/opensea_proxy/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
+        `https://api.opensea.io/api/v1/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
     );
-    const {assets, hasMore, isLoading, error} = useDataGetting(urlPath);
+    
+    const { assets, hasMore, isLoading, error } = useDataGetting(urlPath);
+    console.info(assets, hasMore, error);
     const assetsArray = useMemo(() =>
-        assets.length > 0 && !error
-            ? assets.map((item: PostContentInterface) => {
-                const {id} = item;
-                return {
-                    id,
-                };
-            })
-            : [
-                {
-                    id: 0,
-                },
-            ]
-    , [assets, error]);
+            assets.length > 0 && !error
+                ? assets.map((item: PostContentInterface) => {
+                    const { id, token_id, asset_contract, image_preview_url, name } = item;
+                    return {
+                        id,
+                        token_id,
+                        address: asset_contract.address,
+                        image_preview_url,
+                        name
+                    };
+                })
+                : [
+                    {
+                        id: "0",
+                        token_id: "0",
+                        address: "00000AAAAAAA",
+                        name: "empty",
+                        image_preview_url: undefined,
+                    }
+                ]
+        , [assets, error]);
     const observer = useRef<null | IntersectionObserver>();
     const lastPostBlock = useCallback(
         (lastNode) => {
@@ -189,71 +214,88 @@ const InfiniteScroll = () => {
             observer.current = new IntersectionObserver(
                 (entries) => {
                     if (entries[0].isIntersecting) {
-                        limit.current = limit.current <= 40 ? limit.current + 10 : limit.current < 50 ? 50 : 0;
+                        limit.current = limit.current <= 40 ? limit.current + 10 : limit.current < 50 ? 50 : 20;
                         assetsArray[0].id !== 0 && setUrlPath(
-                            `/opensea_proxy/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
+                            `https://api.opensea.io/api/v1/assets?order_direction=desc&limit=${limit.current}&owner=0x960DE9907A2e2f5363646d48D7FB675Cd2892e91&offset=${offset}`
                         );
                     }
                 },
-                {threshold: 0.8}
+                { threshold: 0.8 }
             );
             lastNode && observer.current?.observe(lastNode);
         },
         [assetsArray, offset]
     );
 
-    // const [backToTopButtonVisibility, setBackToTopButtonVisibility] = useState<"flex" | "none">("none");
-    // const topObserver = useRef<null | IntersectionObserver>();
-    // const firstPostBlock = useCallback((firstNode) => {
-    //     topObserver.current = new IntersectionObserver((entries) => {
-    //         !entries[0].isIntersecting && setBackToTopButtonVisibility("flex");
-    //         entries[0].isIntersecting && setBackToTopButtonVisibility("none");
-    //     });
-    //     topObserver.current?.observe(firstNode);
-    // }, []);
+    const [backToTopButtonVisibility, setBackToTopButtonVisibility] = useState<"flex" | "none">("none");
+    const topObserver = useRef<null | IntersectionObserver>();
+    const firstPostBlock = useCallback((firstNode) => {
+        topObserver.current = new IntersectionObserver((entries) => {
+            !entries[0].isIntersecting && setBackToTopButtonVisibility("flex");
+            entries[0].isIntersecting && setBackToTopButtonVisibility("none");
+        });
+        topObserver.current?.observe(firstNode);
+    }, []);
 
-    // const [showNoContentBlock, setShowNoContentBlock] =
-    //     useState<boolean>(false);
-    // useEffect(() => {
-    //     !hasMore && setShowNoContentBlock(true);
-    //     !hasMore && setTimeout(() => setShowNoContentBlock(false), 3000);
-    // }, [hasMore]);
-    //
-    // useEffect(() => {
-    //     setCurrentLastId(posts[posts.length - 1]?.id);
-    // }, [posts]);
+    const [showNoContentBlock, setShowNoContentBlock] =
+        useState<boolean>(false);
+    useEffect(() => {
+        !hasMore && setShowNoContentBlock(true);
+        !hasMore && setTimeout(() => setShowNoContentBlock(false), 3000);
+    }, [hasMore]);
+
+
+    const [isShowDetailPage, setIsShowDetailPage] = useState(false);
+    const contract_address = useRef("");
+    const token_id = useRef("");
+    const handleCardClick = (address: string, tokenId: string) => {
+        setIsShowDetailPage(true);
+        contract_address.current = address;
+        token_id.current = tokenId;
+    }
+
     return (
         <Base>
             {isLoading && (
                 <Loading>
                     <div>
-                        <div/>
-                        <div/>
-                        <div/>
+                        <div />
+                        <div />
+                        <div />
                     </div>
                 </Loading>
             )}
-            {assetsArray.map((item, index: number) =>
-                assetsArray.length === index + 1 ? (
-                    <Block key={`${item.id}_${item.id}`} ref={lastPostBlock}>
-                        <Title style={{background: "red"}}>{item.id}</Title>
-                    </Block>
-                ) : index === 0 ? (
-                    <Block key={`${item.id}_${item.id}`}>
-                        <Title>{item.id}</Title>
-                    </Block>
-                ) : (
-                    <Block key={`${item.id}_${item.id}`}>
-                        <Title>{item.id}</Title>
-                    </Block>
-                )
+                {assetsArray.map((item, index: number) =>
+                   assetsArray.length === index + 1 ? (
+                        <Card key={`${item.name}_${item.id}`} ref={lastPostBlock} onClick={() => {handleCardClick(item.address, item.token_id)}}>
+                            <CardImageBlock>
+                                {item.image_preview_url && <img src={item.image_preview_url} />}
+                            </CardImageBlock>
+                            <CardTitle>{item.name}</CardTitle>
+                        </Card>
+                    ) : index === 0 ? (
+                        <Card id="top" key={`${item.name}_${item.id}`} ref={firstPostBlock} onClick={() => {handleCardClick(item.address, item.token_id)}}>
+                            <CardImageBlock>
+                                {item.image_preview_url && <img src={item.image_preview_url} />}
+                            </CardImageBlock>
+                            <CardTitle>{item.name}</CardTitle>
+                        </Card>
+                    ) : (
+                        <Card key={`${item.name}_${item.id}`} onClick={() => {handleCardClick(item.address, item.token_id)}}>
+                            <CardImageBlock>
+                                {item.image_preview_url && <img src={item.image_preview_url} />}
+                            </CardImageBlock>
+                            <CardTitle>{item.name}</CardTitle>
+                        </Card>
+                    )
+                )}
+            <BackToTopButton visibility={backToTopButtonVisibility} href="#top">
+                TOP
+            </BackToTopButton>
+            {showNoContentBlock && (
+                <NothingMoreBlock>抱歉，暫時沒有更多內容</NothingMoreBlock>
             )}
-            {/* <BackToTopButton visibility={backToTopButtonVisibility} href="#top">*/}
-            {/*    TOP*/}
-            {/* </BackToTopButton>*/}
-            {/* {showNoContentBlock && (*/}
-            {/*    <NothingMoreBlock>抱歉，暫時沒有更多內容</NothingMoreBlock>*/}
-            {/* )}*/}
+            {isShowDetailPage && <DetailPage contract_address={contract_address.current} token_id={token_id.current} handleDetailPageVisibility={setIsShowDetailPage}/>}
         </Base>
     );
 };
