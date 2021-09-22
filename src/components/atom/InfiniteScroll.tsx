@@ -18,7 +18,7 @@ const Base = styled.div`
   max-height: 100%;
   flex-wrap: wrap;
   padding-top: 10px;
-  min-width: 678px;
+  min-width: 320px;
 `;
 
 const Card = styled.div`
@@ -33,6 +33,7 @@ const Card = styled.div`
   height: 40%;
   box-shadow: #2e8484 0px 0px 2px;
   min-height: 276px;
+  min-width: 280px;
 
   &:hover {
     background-color: rgba(203, 203, 203, 0.45);
