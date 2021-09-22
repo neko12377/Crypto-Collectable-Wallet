@@ -184,7 +184,6 @@ const InfiniteScroll = () => {
     );
     
     const { assets, hasMore, isLoading, error } = useDataGetting(urlPath);
-    console.info(assets, hasMore, error);
     const assetsArray = useMemo(() =>
             assets.length > 0 && !error
                 ? assets.map((item: PostContentInterface) => {
