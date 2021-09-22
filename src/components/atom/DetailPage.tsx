@@ -20,8 +20,9 @@ const Card = styled.div`
     align-items: center;
     padding: 10px;
     width: 50%;
-    height: 80%;
+    height: 90%;
     background-color: white;
+    row-gap: 10px;
 `;
 
 const CollectionNameBlock = styled.h2`
@@ -44,7 +45,7 @@ const ImgBlock = styled.div`
     }
 `;
 
-const NameBlock = styled.div`
+const NameBlock = styled.h3`
   width: 90%;
   height: 10%;
   display: flex;
@@ -54,14 +55,32 @@ const NameBlock = styled.div`
 
 const DescriptionBlock = styled.div`
   width: 90%;
-  height: 30%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+`;
+
+const PermaLinkButtonBlock = styled.div`
+  width: 90%;
+  height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
+const PermaLinkButton = styled.button`
+    width: 40%;
+    height: 90%;
+    box-shadow: 0 0 0;
+    background-color: aqua;
+    cursor: pointer;
+    font-size: 14px;
+`
+
 export const DetailPage = (props: {contract_address: string, token_id: string, handleDetailPageVisibility: Function}) => {
-    const {collectionName, name, description, imgUrl} = useDetailGetting(props.contract_address, props.token_id)
+    const {collectionName, name, description, imgUrl, permalink} = useDetailGetting(props.contract_address, props.token_id)
     return (
         <StyledDetailPage onClick={() => {props.handleDetailPageVisibility(false)}}>
             <Card>
@@ -77,6 +96,11 @@ export const DetailPage = (props: {contract_address: string, token_id: string, h
                 <DescriptionBlock>
                     {description}
                 </DescriptionBlock>
+                <PermaLinkButtonBlock>
+                    <PermaLinkButton onClick={() => {window.open(permalink)}}>
+                        permalink
+                    </PermaLinkButton>
+                </PermaLinkButtonBlock>
             </Card>
         </StyledDetailPage>
     )
